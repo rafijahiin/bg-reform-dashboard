@@ -3,237 +3,439 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bangladesh Reform Dashboard</title>
-    <!-- Load Tailwind CSS -->
+    <title>Strategic Reform Dashboard | Bangladesh 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .nav-link.active { 
+            background-color: #4f46e5; 
+            color: white; 
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2); 
+        }
+    </style>
 </head>
-<body>
-    <div class="min-h-screen bg-[#F8FAFC] text-slate-900 pb-16">
-        <!-- Header -->
-        <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-            <div class="max-w-[1400px] mx-auto px-6 py-4 flex flex-col md:flex-row md:items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <i data-lucide="shield-alert" class="text-indigo-600 w-8 h-8"></i>
-                    <h1 class="text-lg font-extrabold">Bangladesh Reform Dashboard</h1>
+<body class="bg-[#F8FAFC] text-slate-900 antialiased">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-[1400px] mx-auto px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <div class="bg-indigo-600 p-2 rounded-lg">
+                    <i data-lucide="shield-alert" class="text-white w-6 h-6"></i>
                 </div>
-                <div class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-[10px] font-bold uppercase border border-green-100 mt-4 md:mt-0 w-fit">
-                    49 Sources Active
+                <div>
+                    <h1 class="text-lg font-extrabold tracking-tight">Bangladesh Reform Dashboard</h1>
+                    <p class="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Post-Election Strategic Analysis</p>
                 </div>
             </div>
-        </header>
-
-        <!-- Main Layout -->
-        <div class="max-w-[1400px] mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8">
-            <!-- Sidebar Navigation -->
-            <aside class="lg:w-72 flex-shrink-0">
-                <nav id="sidebar-nav" class="sticky top-28 space-y-2">
-                    <!-- Populated by JavaScript -->
-                </nav>
-            </aside>
-
-            <!-- Main Content Area -->
-            <main id="main-content" class="flex-1 min-w-0">
-                <!-- Populated by JavaScript -->
-            </main>
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                    <input 
+                        type="text" 
+                        id="sourceSearch"
+                        placeholder="Search 49 sources..." 
+                        class="pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-indigo-500 outline-none transition-all w-64"
+                    >
+                </div>
+                <div class="px-3 py-1.5 bg-indigo-50 text-indigo-700 rounded-full text-[10px] font-bold uppercase border border-indigo-100">
+                    Live Data Feed
+                </div>
+            </div>
         </div>
+    </header>
+
+    <div class="max-w-[1400px] mx-auto px-6 py-8 flex flex-col lg:flex-row gap-8">
+        <!-- Sidebar -->
+        <aside class="lg:w-72 flex-shrink-0">
+            <nav class="sticky top-28 space-y-1.5" id="sidebar-nav">
+                <button onclick="switchTab('summary')" class="nav-link active w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:bg-white border border-transparent">
+                    <div class="flex items-center gap-3"><i data-lucide="bar-chart-3" class="w-4 h-4"></i> Strategic Summary</div>
+                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                </button>
+                <button onclick="switchTab('geopolitical')" class="nav-link w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:bg-white border border-transparent">
+                    <div class="flex items-center gap-3"><i data-lucide="globe" class="w-4 h-4"></i> Geopolitical (EU)</div>
+                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                </button>
+                <button onclick="switchTab('legal')" class="nav-link w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:bg-white border border-transparent">
+                    <div class="flex items-center gap-3"><i data-lucide="scale" class="w-4 h-4"></i> Legal Development</div>
+                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                </button>
+                <button onclick="switchTab('political')" class="nav-link w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:bg-white border border-transparent">
+                    <div class="flex items-center gap-3"><i data-lucide="users" class="w-4 h-4"></i> Civil & Political</div>
+                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                </button>
+                <button onclick="switchTab('electoral')" class="nav-link w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:bg-white border border-transparent">
+                    <div class="flex items-center gap-3"><i data-lucide="vote" class="w-4 h-4"></i> Electoral & Women</div>
+                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                </button>
+                <button onclick="switchTab('media')" class="nav-link w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:bg-white border border-transparent">
+                    <div class="flex items-center gap-3"><i data-lucide="lock" class="w-4 h-4"></i> Media & Digital</div>
+                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                </button>
+                <button onclick="switchTab('admin')" class="nav-link w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:bg-white border border-transparent">
+                    <div class="flex items-center gap-3"><i data-lucide="book-open" class="w-4 h-4"></i> 180-Day Plan</div>
+                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                </button>
+                <button onclick="switchTab('references')" class="nav-link w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all text-slate-500 hover:bg-white border border-transparent">
+                    <div class="flex items-center gap-3"><i data-lucide="file-text" class="w-4 h-4"></i> Works Cited</div>
+                    <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 min-w-0">
+            
+            <!-- Summary Tab -->
+            <div id="summary" class="tab-content active space-y-6">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                    <h2 class="text-2xl font-extrabold mb-4 flex items-center gap-2 text-slate-800">
+                        <i data-lucide="trending-up" class="text-indigo-600"></i>
+                        Strategic Analysis: Post-Election Transformation
+                    </h2>
+                    <div class="prose prose-slate max-w-none text-slate-600 leading-relaxed space-y-4 text-sm">
+                        <p>The transition of Bangladesh following the February 12, 2026, parliamentary elections represents a critical juncture in the nation’s democratic history. Guided by the mandate of the July 2024 mass uprising and the subsequent endorsement of the July National Charter, the newly elected government has moved with unprecedented speed to institutionalize the reforms initiated during the interim period.</p>
+                        <p>This analysis evaluates the landscape through the lens of legal, political, and media developments, mapping advancements to the 19 priority recommendations provided by the European Union Election Observation Mission (EU EOM).</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 mt-8">
+                        <div class="p-5 bg-indigo-50 border border-indigo-100 rounded-2xl">
+                            <h4 class="text-indigo-800 font-bold text-sm mb-2 flex items-center gap-2"><i data-lucide="check-circle-2" class="w-4 h-4"></i> 91 Bills Passed</h4>
+                            <p class="text-xs text-indigo-600">Settling 117 ordinances from the interim administration to ensure institutional continuity.</p>
+                        </div>
+                        <div class="p-5 bg-emerald-50 border border-emerald-100 rounded-2xl">
+                            <h4 class="text-emerald-800 font-bold text-sm mb-2 flex items-center gap-2"><i data-lucide="globe" class="w-4 h-4"></i> EU PCA Initialed</h4>
+                            <p class="text-xs text-emerald-600">Transitioning to a strategic partnership covering energy, maritime security, and trade.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="scale" class="w-5 h-5 text-indigo-600"></i> EU EOM Priority Mapping</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-100 uppercase text-[10px] font-bold text-slate-500 tracking-wider">
+                                        <th class="px-4 py-3">Recommendation</th>
+                                        <th class="px-4 py-3">Status</th>
+                                        <th class="px-4 py-3">Narrative Insight</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-slate-600">
+                                    <tr>
+                                        <td class="px-4 py-3 border-b border-slate-50 font-bold">Rec 1: Legal Certainty</td>
+                                        <td class="px-4 py-3 border-b border-slate-50">91 bills passed</td>
+                                        <td class="px-4 py-3 border-b border-slate-50">Procedural certainty achieved; 133 total ordinances processed.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 border-b border-slate-50 font-bold">Rec 3: Women in Politics</td>
+                                        <td class="px-4 py-3 border-b border-slate-50">Nari Shakti launch</td>
+                                        <td class="px-4 py-3 border-b border-slate-50">Reserved seats election set for May 12.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-3 border-b border-slate-50 font-bold">Rec 4: Cyber Law</td>
+                                        <td class="px-4 py-3 border-b border-slate-50">Cyber Bill 2026</td>
+                                        <td class="px-4 py-3 border-b border-slate-50">Legislation modernized but implementation remains sensitive.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Geopolitical Tab -->
+            <div id="geopolitical" class="tab-content space-y-6">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="globe" class="text-indigo-600 w-6 h-6"></i> EU Partnership Framework</h2>
+                    <p class="text-sm text-slate-600 mb-6">Initialed April 21, 2026. This 82-article agreement marks a shift from a donor-recipient dynamic to a comprehensive strategic partnership.</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border border-slate-100 rounded-lg">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="px-4 py-3 font-bold text-slate-500 uppercase text-[10px]">Sector</th>
+                                    <th class="px-4 py-3 font-bold text-slate-500 uppercase text-[10px]">Focus Areas</th>
+                                    <th class="px-4 py-3 font-bold text-slate-500 uppercase text-[10px]">Strategic Implication</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-600">
+                                <tr>
+                                    <td class="px-4 py-3 border-b border-slate-100 font-bold">Trade & Investment</td>
+                                    <td class="px-4 py-3 border-b border-slate-100">Digital trade, IPR protection</td>
+                                    <td class="px-4 py-3 border-b border-slate-100">Transitioning to rules-based reciprocal trade.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 border-b border-slate-100 font-bold">Security</td>
+                                    <td class="px-4 py-3 border-b border-slate-100">Maritime security, migration</td>
+                                    <td class="px-4 py-3 border-b border-slate-100">Structured law enforcement cooperation.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Evidence Links</h3>
+                    <div class="space-y-1" id="geopolitical-links"></div>
+                </div>
+            </div>
+
+            <!-- Legal Tab -->
+            <div id="legal" class="tab-content space-y-6">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="scale" class="text-indigo-600 w-6 h-6"></i> Legislative marathon</h2>
+                    <p class="text-sm text-slate-600 mb-6">91 bills were passed to convert interim ordinances into permanent law. 16 ordinances were allowed to lapse.</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                            <div class="text-2xl font-bold text-slate-800">91</div>
+                            <div class="text-[10px] text-slate-400 uppercase font-bold">Settled as Law</div>
+                        </div>
+                        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                            <div class="text-2xl font-bold text-slate-800">16</div>
+                            <div class="text-[10px] text-slate-400 uppercase font-bold">Lapsed/Repealed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Evidence Links</h3>
+                    <div class="space-y-1" id="legal-links"></div>
+                </div>
+            </div>
+
+            <!-- Political Tab -->
+            <div id="political" class="tab-content space-y-6">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="users" class="text-indigo-600 w-6 h-6"></i> Pluralism & Boundaries</h2>
+                    <p class="text-sm text-slate-600 mb-4">The ban on the Awami League remains a focus of international observation regarding political inclusion.</p>
+                    <div class="p-4 bg-amber-50 border border-amber-100 rounded-xl text-xs text-amber-800 leading-relaxed italic">
+                        "UN experts have raised concerns over the ban's impact on democratic pluralism."
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Evidence Links</h3>
+                    <div class="space-y-1" id="political-links"></div>
+                </div>
+            </div>
+
+            <!-- Electoral Tab -->
+            <div id="electoral" class="tab-content space-y-6">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="vote" class="text-indigo-600 w-6 h-6"></i> Electoral Development</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="px-4 py-3 font-bold text-slate-500 uppercase text-[10px]">Party</th>
+                                    <th class="px-4 py-3 font-bold text-slate-500 uppercase text-[10px]">Seats</th>
+                                    <th class="px-4 py-3 font-bold text-slate-500 uppercase text-[10px]">Reserved Seat Profile</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-slate-600">
+                                <tr>
+                                    <td class="px-4 py-3 border-b border-slate-100 font-bold">BNP</td>
+                                    <td class="px-4 py-3 border-b border-slate-100">36</td>
+                                    <td class="px-4 py-3 border-b border-slate-100">Includes seasoned leaders like Selima Rahman.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 border-b border-slate-100 font-bold">Jamaat-e-Islami</td>
+                                    <td class="px-4 py-3 border-b border-slate-100">8</td>
+                                    <td class="px-4 py-3 border-b border-slate-100">Nominated Rokeya Begum (July martyr's mother).</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Evidence Links</h3>
+                    <div class="space-y-1" id="electoral-links"></div>
+                </div>
+            </div>
+
+            <!-- Media Tab -->
+            <div id="media" class="tab-content space-y-6">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="lock" class="text-indigo-600 w-6 h-6"></i> Media & Digital Rights</h2>
+                    <div class="bg-rose-50 border border-rose-100 p-4 rounded-xl mb-4">
+                        <h4 class="text-rose-800 font-bold text-xs mb-2 flex items-center gap-2"><i data-lucide="alert-circle" class="w-4 h-4"></i> Alarming arrests</h4>
+                        <p class="text-[11px] text-rose-600 leading-relaxed">Human Rights Watch rebukes the arrest of four individuals in April 2026 for social media criticism.</p>
+                    </div>
+                    <p class="text-xs text-slate-500">The lapse of Media Reform Ordinances leaves the regulatory environment in state of uncertainty.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Evidence Links</h3>
+                    <div class="space-y-1" id="media-links"></div>
+                </div>
+            </div>
+
+            <!-- Admin Tab -->
+            <div id="admin" class="tab-content space-y-6">
+                <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                    <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><i data-lucide="book-open" class="text-indigo-600 w-6 h-6"></i> 180-Day Action Plan</h2>
+                    <p class="text-sm text-slate-600 mb-6">60 landmark initiatives targeting social protection, energy, and billion-dollar growth.</p>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="px-4 py-3 font-bold text-slate-500 uppercase text-[10px]">Initiative</th>
+                                    <th class="px-4 py-3 font-bold text-slate-500 uppercase text-[10px]">Target</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="px-4 py-3 border-b border-slate-100 font-bold">Farmer Card</td>
+                                    <td class="px-4 py-3 border-b border-slate-100">22,000 issued across 10 districts.</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 border-b border-slate-100 font-bold">Social Safety</td>
+                                    <td class="px-4 py-3 border-b border-slate-100">Family Card for 37k+ vulnerable families.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Evidence Links</h3>
+                    <div class="space-y-1" id="admin-links"></div>
+                </div>
+            </div>
+
+            <!-- Works Cited Tab -->
+            <div id="references" class="tab-content space-y-6">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div id="sources-list" class="divide-y divide-slate-100">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+        </main>
     </div>
 
+    <!-- Footer -->
+    <footer class="max-w-[1400px] mx-auto px-6 mt-12 pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center text-slate-400 gap-4 mb-16">
+        <p class="text-xs">© 2026 Strategic Evaluation Office. All rights reserved.</p>
+        <div class="flex gap-6 text-[10px] font-bold uppercase tracking-widest">
+           <span class="text-indigo-600">Confidential / For Review</span>
+           <span>Data Integrity Audit</span>
+        </div>
+    </footer>
+
     <script>
-        // Data Configuration
+        // Tab switching logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            const links = document.querySelectorAll('.nav-link');
+            links.forEach(l => {
+                if(l.getAttribute('onclick').includes(tabId)) l.classList.add('active');
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Dashboard Data
         const sources = [
-            { id: 1, title: "EU-Bangladesh PCA: Energy, transport, security, and human rights framework", url: "https://www.globaldefensecorp.com/2026/04/24/eu-and-bangladesh/" },
-            { id: 2, title: "Brussels High-Level Talks: Reinforcing Bangladesh-EU-Belgium strategic ties", url: "https://www.eureporter.co/world/bangladesh/2026/04/23/brussels-talks-reinforce-growing-bangladesh-eu-and-bangladesh-belgium-relations/" },
-            { id: 3, title: "Historical Context: Bangladesh–European Union bilateral relations overview", url: "https://en.wikipedia.org/wiki/Bangladesh%E2%80%93European_Union_relations" },
-            { id: 4, title: "PCA Signing: Shifting from donor-recipient to reciprocal trade partnership", url: "https://www.fibre2fashion.com/news/textile-news/bangladesh-eu-sign-partnership-and-cooperation-agreement-309890-newsdetails.htm" },
-            { id: 5, title: "Analysis: Taking the EU-Bangladesh partnership to a strategic next level", url: "https://today.thefinancialexpress.com.bd/editorial/can-eu-bangladesh-partnership-be-taken-to-next-level-1776869968?amp=true" },
-            { id: 6, title: "EU EOM Final Report: Comprehensive 2026 electoral audit and 19 recommendations", url: "#" },
-            { id: 7, title: "Al Jazeera Report: Evaluation of reform survival post-student uprising", url: "https://www.aljazeera.com/news/2026/4/22/is-bangladesh-killing-reforms-introduced-after-student-led-protests" },
-            { id: 8, title: "CGS Analysis: The 30-Day constitutional test of 133 interim ordinances", url: "https://cgs-bd.com/article/28765/Fate-of-133-Ordinances--The-30-Day-Test-of-The-New-Parliament" },
-            { id: 9, title: "BSS Report: 97 of 133 ordinances passed by JS without amendment", url: "https://www.bssnews.net/news/377040" },
-            { id: 10, title: "Just News: 91 bills passed replacing 117 ordinances; 20 voided", url: "https://www.justnewsbd.com/en/bangladesh/news/29565" },
-            { id: 11, title: "The Business Standard: Legislative marathon converts interim laws", url: "https://www.tbsnews.net/bangladesh/91-bills-passed-convert-yunus-era-ordinances-laws-1408216" },
-            { id: 12, title: "Dhaka Tribune: Procedural transition of interim ordinances to permanent law", url: "https://www.dhakatribune.com/bangladesh/parliament/407437/91-bills-passed-in-parliament-to-convert" },
-            { id: 13, title: "BSS Update: Interim government's key legal instruments turn into formal laws", url: "https://www.bssnews.net/js-session/375333" },
-            { id: 14, title: "News On Air: Key reform ordinances lapse amid intense political friction", url: "https://www.newsonair.gov.in/bangladesh-yunus-administrations-key-reform-ordinances-lapse-amid-political-row/" },
-            { id: 15, title: "BSS Record: JS session concludes with passage of major reform bills", url: "https://www.bssnews.net/js-session/376218" },
-            { id: 16, title: "Jago News: Legalization framework for interim actions and referendums", url: "https://www.jagonews24.com/en/national/news/91755" },
-            { id: 17, title: "BSS Legal: Supreme Court Judge Appointment (Repeal) Bill 2026 passage", url: "https://www.bssnews.net/js-session/376088" },
-            { id: 18, title: "BSS News: Passage of the July Mass Uprising protection bill", url: "https://www.bssnews.net/js-session/375767" },
-            { id: 19, title: "BSS Official: Indemnity ordinance promulgated for uprising participants", url: "https://www.bssnews.net/news-flash/354947" },
-            { id: 20, title: "BSS Update: Revolutionary indemnity mechanism approved by government", url: "https://www.bssnews.net/news-flash/351451" },
-            { id: 21, title: "The Hindu: Referendum turnout data and triumph of the 'Yes' vote", url: "https://www.thehindu.com/news/international/bangladesh-elections-live-results-updates-thursday-february-12-2026/article70622357.ece" },
-            { id: 22, title: "The Hindu: Strong opposition formation to challenge BNP dominance", url: "https://www.thehindu.com/news/international/strong-opposition-set-to-test-bnps-dominance-as-bangladeshs-new-parliament-takes-shape/article70633306.ece" },
-            { id: 23, title: "ALBD Update: UN expert concerns over Awami League ban and pluralism", url: "https://albd.org/articles/news/41694/UN-Raises-Concerns-Over-Awami-League-Ban,-Fair-Trial-Rights-in-Bangladesh" },
-            { id: 24, title: "Anadolu Agency: Parliamentary vote formalizes ban on previous regime", url: "https://www.aa.com.tr/en/asia-pacific/bangladeshi-lawmakers-vote-to-keep-ban-on-ousted-hasina-s-party/3897693" },
-            { id: 25, title: "ConstitutionNet: Political rallies demand referendum on the National Charter", url: "https://constitutionnet.org/news/political-parties-hold-rallies-bangladesh-demand-referendum-national-charter-elections" },
-            { id: 26, title: "Wikipedia: Structural analysis of the 2026 constitutional referendum", url: "https://en.wikipedia.org/wiki/2026_Bangladeshi_constitutional_referendum" },
-            { id: 27, title: "Wikipedia: The July National Charter - Tenets and Reform Proposals", url: "https://en.wikipedia.org/wiki/July_Charter" },
-            { id: 28, title: "ConstitutionNet: Path to constitutional reform via the July Charter", url: "https://constitutionnet.org/news/voices/july-charter-and-constitutional-reforms-bangladesh" },
-            { id: 29, title: "Dhaka Tribune: 180-day plan - 60 major welfare and reform measures", url: "https://www.dhakatribune.com/bangladesh/government-affairs/408064/60-steps-by-bnp-government-in-two-months" },
-            { id: 30, title: "Prothom Alo: Reserved women's seats - Alliance and party nominations", url: "https://en.prothomalo.com/bangladesh/politics/9dbf131djc" },
-            { id: 31, title: "BSS News: BNP announces list of 36 nominees for reserved seats", url: "https://www.bssnews.net/news/379603" },
-            { id: 32, title: "Jago News: Finalization of candidates across the 11-party alliance", url: "https://www.jagonews24.com/en/politics/news/92013" },
-            { id: 33, title: "TBS News: Launch of 'Jatiyo Nari Shakti' women's political wing", url: "https://www.tbsnews.net/bangladesh/politics/ncp-launches-jatiyo-nari-shakti-monira-sharmin-named-convener-1380686" },
-            { id: 34, title: "Prothom Alo: Leadership structure of NCP's new women's wing", url: "https://en.prothomalo.com/bangladesh/politics/0smfxfeqtx" },
-            { id: 35, title: "Jago News: NCP's strategic move to engage women from the uprising", url: "https://www.jagonews24.com/en/politics/news/90635" },
-            { id: 36, title: "Human Rights Watch: Arrests for social media criticism raising alarm", url: "https://www.hrw.org/news/2026/04/23/bangladesh-4-arrested-for-insulting-government" },
-            { id: 37, title: "IFJ Statement: Data breach safety concerns and press freedom issues", url: "https://www.ifj.org/media-centre/news/detail/category/press-releases/article/bangladesh-press-freedom-critical-for-resurrection-of-bangladeshs-democracy" },
-            { id: 38, title: "Dhaka Tribune: Analyzing vague definitions in new cyber legislation", url: "https://www.dhakatribune.com/opinion/op-ed/408589/the-vagueness-in-our-cyber-laws" },
-            { id: 39, title: "Jurist News: Rights groups rebuke arrests of government critics", url: "https://www.jurist.org/news/2026/04/rights-group-rebukes-arrest-of-four-individuals-for-criticizing-bangladesh-government/" },
-            { id: 40, title: "Article 19: Media reform ordinances criticized for government control", url: "https://www.article19.org/resources/bangladesh-rush-to-establish-media-bodies-threatens-freedom-of-expression/" },
-            { id: 41, title: "Observer: Impact evaluation of the first 60 days of government", url: "https://observerbd.com/news/573384" },
-            { id: 42, title: "BSS Flash: Spokesman details 60 landmark initiatives by the cabinet", url: "https://www.bssnews.net/news-flash/379091" },
-            { id: 43, title: "Just News: Evaluating obstacles to national development initiatives", url: "https://www.justnewsbd.com/en/bangladesh/news/29696" },
-            { id: 44, title: "Prothom Alo: Impact of the 180-day reform and welfare plan", url: "https://en.prothomalo.com/bangladesh/ibwajacjot" },
-            { id: 45, title: "Dhaka Tribune: PM Tarique's initial 28-day reform milestones", url: "https://www.dhakatribune.com/bangladesh/politics/405657/pm-tarique-28-day-reforms-major-initiatives" },
-            { id: 46, title: "BSS Record: Passage of the NHRC (Repeal and Re-enactment) Bill", url: "https://www.bssnews.net/js-session/376084" },
-            { id: 47, title: "TIB Statement: Tipping point for justice amid ordinance rollbacks", url: "https://www.ti-bangladesh.org/en/articles/story/7466" },
-            { id: 48, title: "HRW Urgent Call: Passing effective NHRC and disappearance laws", url: "https://www.hrw.org/news/2026/04/08/bangladesh-urgently-pass-the-national-human-rights-commission-and-enforced" },
-            { id: 49, title: "Observer Report: Administrative friction and uncooperative opposition", url: "https://observerbd.com/news/573304" }
+            { id: 1, cat: 'geopolitical', title: "EU-Bangladesh PCA: Energy, transport, security, and human rights framework", url: "https://www.globaldefensecorp.com/2026/04/24/eu-and-bangladesh/" },
+            { id: 2, cat: 'geopolitical', title: "Brussels High-Level Talks: Reinforcing strategic ties", url: "https://www.eureporter.co/world/bangladesh/2026/04/23/brussels-talks-reinforce-growing-bangladesh-eu-and-bangladesh-belgium-relations/" },
+            { id: 3, cat: 'geopolitical', title: "Historical Context: Bangladesh–EU bilateral relations", url: "https://en.wikipedia.org/wiki/Bangladesh%E2%80%93European_Union_relations" },
+            { id: 4, cat: 'geopolitical', title: "PCA Signing: Reciprocal trade partnership", url: "https://www.fibre2fashion.com/news/textile-news/bangladesh-eu-sign-partnership-and-cooperation-agreement-309890-newsdetails.htm" },
+            { id: 5, cat: 'geopolitical', title: "Analysis: Taking the EU partnership to a strategic level", url: "https://today.thefinancialexpress.com.bd/editorial/can-eu-bangladesh-partnership-be-taken-to-next-level-1776869968?amp=true" },
+            { id: 6, cat: 'electoral', title: "EU EOM Final Report: Electoral audit recommendations", url: "#" },
+            { id: 7, cat: 'legal', title: "Al Jazeera: Evaluation of reform survival post-uprising", url: "https://www.aljazeera.com/news/2026/4/22/is-bangladesh-killing-reforms-introduced-after-student-led-protests" },
+            { id: 8, cat: 'legal', title: "CGS Analysis: The 30-Day test of 133 interim ordinances", url: "https://cgs-bd.com/article/28765/Fate-of-133-Ordinances--The-30-Day-Test-of-The-New-Parliament" },
+            { id: 9, cat: 'legal', title: "BSS Report: 97 of 133 ordinances passed by JS", url: "https://www.bssnews.net/news/377040" },
+            { id: 10, cat: 'legal', title: "Just News: 91 bills passed replacing 117 ordinances", url: "https://www.justnewsbd.com/en/bangladesh/news/29565" },
+            { id: 11, cat: 'legal', title: "TBS News: Legislative marathon converts interim laws", url: "https://www.tbsnews.net/bangladesh/91-bills-passed-convert-yunus-era-ordinances-laws-1408216" },
+            { id: 12, cat: 'legal', title: "Dhaka Tribune: Procedural transition of interim ordinances", url: "https://www.dhakatribune.com/bangladesh/parliament/407437/91-bills-passed-in-parliament-to-convert" },
+            { id: 13, cat: 'legal', title: "BSS Update: Key legal instruments turn into laws", url: "https://www.bssnews.net/js-session/375333" },
+            { id: 14, cat: 'legal', title: "News On Air: Key ordinances lapse amid friction", url: "https://www.newsonair.gov.in/bangladesh-yunus-administrations-key-reform-ordinances-lapse-amid-political-row/" },
+            { id: 15, cat: 'legal', title: "BSS Record: JS concludes with major reform bills", url: "https://www.bssnews.net/js-session/376218" },
+            { id: 16, cat: 'legal', title: "Jago News: Legalization framework for referendums", url: "https://www.jagonews24.com/en/national/news/91755" },
+            { id: 17, cat: 'legal', title: "BSS: Supreme Court Judge Appointment Bill 2026", url: "https://www.bssnews.net/js-session/376088" },
+            { id: 18, cat: 'legal', title: "BSS News: Passage of July Mass Uprising protection bill", url: "https://www.bssnews.net/js-session/375767" },
+            { id: 19, cat: 'legal', title: "BSS Official: Indemnity ordinance for uprising", url: "https://www.bssnews.net/news-flash/354947" },
+            { id: 20, cat: 'legal', title: "BSS Update: Indemnity mechanism approved", url: "https://www.bssnews.net/news-flash/351451" },
+            { id: 21, cat: 'political', title: "The Hindu: Referendum turnout data and results", url: "https://www.thehindu.com/news/international/bangladesh-elections-live-results-updates-thursday-february-12-2026/article70622357.ece" },
+            { id: 22, cat: 'political', title: "The Hindu: Strong opposition formation to challenge BNP", url: "https://www.thehindu.com/news/international/strong-opposition-set-to-test-bnps-dominance-as-bangladeshs-new-parliament-takes-shape/article70633306.ece" },
+            { id: 23, cat: 'political', title: "ALBD Update: UN concerns over Awami League ban", url: "https://albd.org/articles/news/41694/UN-Raises-Concerns-Over-Awami-League-Ban,-Fair-Trial-Rights-in-Bangladesh" },
+            { id: 24, cat: 'political', title: "Anadolu: Parliamentary vote formalizes party ban", url: "https://www.aa.com.tr/en/asia-pacific/bangladeshi-lawmakers-vote-to-keep-ban-on-ousted-hasina-s-party/3897693" },
+            { id: 25, cat: 'political', title: "ConstitutionNet: Political rallies demand referendum", url: "https://constitutionnet.org/news/political-parties-hold-rallies-bangladesh-demand-referendum-national-charter-elections" },
+            { id: 26, cat: 'political', title: "Wikipedia: Structural analysis of the 2026 referendum", url: "https://en.wikipedia.org/wiki/2026_Bangladeshi_constitutional_referendum" },
+            { id: 27, cat: 'political', title: "Wikipedia: The July National Charter tenets", url: "https://en.wikipedia.org/wiki/July_Charter" },
+            { id: 28, cat: 'political', title: "ConstitutionNet: Path via the July Charter", url: "https://constitutionnet.org/news/voices/july-charter-and-constitutional-reforms-bangladesh" },
+            { id: 29, cat: 'admin', title: "Dhaka Tribune: 180-day plan - 60 major measures", url: "https://www.dhakatribune.com/bangladesh/government-affairs/408064/60-steps-by-bnp-government-in-two-months" },
+            { id: 30, cat: 'electoral', title: "Prothom Alo: Reserved women's seats nominations", url: "https://en.prothomalo.com/bangladesh/politics/9dbf131djc" },
+            { id: 31, cat: 'electoral', title: "BSS News: BNP list of 36 nominees for reserved seats", url: "https://www.bssnews.net/news/379603" },
+            { id: 32, cat: 'electoral', title: "Jago News: Finalization of candidates for alliance", url: "https://www.jagonews24.com/en/politics/news/92013" },
+            { id: 33, cat: 'electoral', title: "TBS News: Launch of 'Jatiyo Nari Shakti'", url: "https://www.tbsnews.net/bangladesh/politics/ncp-launches-jatiyo-nari-shakti-monira-sharmin-named-convener-1380686" },
+            { id: 34, cat: 'electoral', title: "Prothom Alo: Leadership of NCP's women's wing", url: "https://en.prothomalo.com/bangladesh/politics/0smfxfeqtx" },
+            { id: 35, cat: 'electoral', title: "Jago News: NCP strategic move to engage women", url: "https://www.jagonews24.com/en/politics/news/90635" },
+            { id: 36, cat: 'media', title: "HRW: Arrests for social media criticism alarm", url: "https://www.hrw.org/news/2026/04/23/bangladesh-4-arrested-for-insulting-government" },
+            { id: 37, cat: 'media', title: "IFJ Statement: Data breach safety concerns", url: "https://www.ifj.org/media-centre/news/detail/category/press-releases/article/bangladesh-press-freedom-critical-for-resurrection-of-bangladeshs-democracy" },
+            { id: 38, cat: 'media', title: "Dhaka Tribune: Analyzing vague cyber definitions", url: "https://www.dhakatribune.com/opinion/op-ed/408589/the-vagueness-in-our-cyber-laws" },
+            { id: 39, cat: 'media', title: "Jurist: Rights groups rebuke arrests of critics", url: "https://www.jurist.org/news/2026/04/rights-group-rebukes-arrest-of-four-individuals-for-criticizing-bangladesh-government/" },
+            { id: 40, cat: 'media', title: "Article 19: Media reform ordinances criticized", url: "https://www.article19.org/resources/bangladesh-rush-to-establish-media-bodies-threatens-freedom-of-expression/" },
+            { id: 41, cat: 'admin', title: "Observer: Evaluation of the first 60 days", url: "https://observerbd.com/news/573384" },
+            { id: 42, cat: 'admin', title: "BSS Flash: Spokesman details 60 initiatives", url: "https://www.bssnews.net/news-flash/379091" },
+            { id: 43, cat: 'admin', title: "Just News: Evaluating obstacles to development", url: "https://www.justnewsbd.com/en/bangladesh/news/29696" },
+            { id: 44, cat: 'admin', title: "Prothom Alo: Impact of 180-day reform plan", url: "https://en.prothomalo.com/bangladesh/ibwajacjot" },
+            { id: 45, cat: 'admin', title: "Dhaka Tribune: PM Tarique's 28-day milestones", url: "https://www.dhakatribune.com/bangladesh/politics/405657/pm-tarique-28-day-reforms-major-initiatives" },
+            { id: 46, cat: 'legal', title: "BSS Record: Passage of NHRC Repeal Bill", url: "https://www.bssnews.net/js-session/376084" },
+            { id: 47, cat: 'legal', title: "TIB Statement: Tipping point for justice", url: "https://www.ti-bangladesh.org/en/articles/story/7466" },
+            { id: 48, cat: 'legal', title: "HRW Urgent Call: Effective NHRC laws", url: "https://www.hrw.org/news/2026/04/08/bangladesh-urgently-pass-the-national-human-rights-commission-and-enforced" },
+            { id: 49, cat: 'admin', title: "Observer: Administrative friction analysis", url: "https://observerbd.com/news/573304" },
         ];
 
-        const categories = [
-            { id: 'summary', name: 'Strategic Summary', icon: 'bar-chart-3', color: 'indigo' },
-            { id: 'geopolitical', name: 'Geopolitical (EU)', icon: 'globe', color: 'blue', sourceIds: [1, 2, 3, 4, 5] },
-            { id: 'legal', name: 'Legal Development', icon: 'scale', color: 'emerald', sourceIds: [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 46, 47, 48] },
-            { id: 'political', name: 'Civil & Political', icon: 'users', color: 'amber', sourceIds: [21, 22, 23, 24, 25, 26, 27, 28] },
-            { id: 'electoral', name: 'Electoral & Women', icon: 'vote', color: 'rose', sourceIds: [6, 30, 31, 32, 33, 34, 35] },
-            { id: 'media', name: 'Media & Digital', icon: 'lock', color: 'cyan', sourceIds: [36, 37, 38, 39, 40] },
-            { id: 'admin', name: 'Administrative/180-Day', icon: 'book-open', color: 'violet', sourceIds: [29, 41, 42, 43, 44, 45, 49] },
-        ];
+        // Populate Links and References
+        function renderDashboard() {
+            const listEl = document.getElementById('sources-list');
+            const searchVal = document.getElementById('sourceSearch').value.toLowerCase();
+            listEl.innerHTML = '';
 
-        // App State
-        let activeTab = 'summary';
+            // Filtered rendering for references tab
+            sources.filter(s => s.title.toLowerCase().includes(searchVal)).forEach(s => {
+                const item = document.createElement('div');
+                item.className = "p-4 hover:bg-slate-50 transition-colors flex items-center justify-between group";
+                item.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <span class="w-8 h-8 flex-shrink-0 flex items-center justify-center bg-slate-100 rounded-lg text-xs font-bold text-slate-500 group-hover:bg-indigo-100 group-hover:text-indigo-600 transition-colors">${s.id}</span>
+                        <span class="text-sm font-medium text-slate-700">${s.title}</span>
+                    </div>
+                    ${s.url !== '#' ? `<a href="${s.url}" target="_blank" class="text-indigo-600 hover:text-indigo-800 flex items-center gap-1 text-xs font-bold">View <i data-lucide="external-link" class="w-3 h-3"></i></a>` : `<span class="text-slate-300 text-xs italic font-bold">Internal</span>`}
+                `;
+                listEl.appendChild(item);
+            });
 
-        // Initialize App
-        function init() {
-            renderSidebar();
-            renderContent();
+            // Populate Evidence Links in tabs
+            const categories = ['geopolitical', 'legal', 'political', 'electoral', 'media', 'admin'];
+            categories.forEach(cat => {
+                const container = document.getElementById(cat + '-links');
+                if(!container) return;
+                container.innerHTML = '';
+                sources.filter(s => s.cat === cat).forEach(s => {
+                    const link = document.createElement('a');
+                    link.href = s.url;
+                    link.target = "_blank";
+                    link.className = "flex items-center group py-2 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-all rounded px-2 -mx-2";
+                    link.innerHTML = `
+                        <span class="w-6 h-6 flex-shrink-0 flex items-center justify-center bg-white border border-slate-100 group-hover:bg-indigo-600 group-hover:text-white text-[10px] font-bold rounded transition-colors mr-3">${s.id}</span>
+                        <span class="text-xs text-slate-600 group-hover:text-indigo-700 font-medium flex-1 truncate">${s.title}</span>
+                        <i data-lucide="external-link" class="w-3 h-3 text-slate-300 group-hover:text-indigo-400 ml-2"></i>
+                    `;
+                    container.appendChild(link);
+                });
+            });
+
             lucide.createIcons();
         }
 
-        // Handle Tab Switching
-        window.setActiveTab = function(id) {
-            activeTab = id;
-            renderSidebar();
-            renderContent();
-            lucide.createIcons(); // Re-initialize icons for newly added DOM elements
-        };
-
-        // Render Sidebar Navigation
-        function renderSidebar() {
-            const nav = document.getElementById('sidebar-nav');
-            
-            nav.innerHTML = categories.map(cat => {
-                const isActive = activeTab === cat.id;
-                const activeClasses = isActive 
-                    ? 'bg-white border-slate-200 shadow-md text-slate-900 ring-1 ring-slate-200' 
-                    : 'text-slate-500 hover:bg-slate-100';
-
-                return `
-                    <button
-                        onclick="setActiveTab('${cat.id}')"
-                        class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-all border border-transparent ${activeClasses}"
-                    >
-                        <div class="flex items-center gap-3">
-                            <i data-lucide="${cat.icon}" class="w-4 h-4"></i>
-                            ${cat.name}
-                        </div>
-                        <i data-lucide="chevron-right" class="w-3 h-3"></i>
-                    </button>
-                `;
-            }).join('');
-        }
-
-        // Build HTML for links
-        function buildLinksHtml(sourceIds) {
-            return sourceIds.map(id => {
-                const s = sources.find(src => src.id === id);
-                if (!s) return '';
-                return `
-                    <a href="${s.url}" target="_blank" rel="noopener noreferrer" class="flex items-center group py-2 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-all rounded px-2 -mx-2">
-                        <span class="w-6 h-6 flex-shrink-0 flex items-center justify-center bg-slate-100 group-hover:bg-indigo-600 group-hover:text-white text-[10px] font-bold rounded transition-colors mr-3">
-                            ${s.id}
-                        </span>
-                        <span class="text-xs text-slate-600 group-hover:text-indigo-700 font-medium flex-1 truncate">
-                            ${s.title}
-                        </span>
-                        <i data-lucide="external-link" class="w-3 h-3 text-slate-300 group-hover:text-indigo-400 ml-2"></i>
-                    </a>
-                `;
-            }).join('');
-        }
-
-        // Render Main Content
-        function renderContent() {
-            const main = document.getElementById('main-content');
-
-            if (activeTab === 'summary') {
-                main.innerHTML = `
-                    <div class="space-y-6">
-                        <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                            <h2 class="text-2xl font-extrabold mb-4">Strategic Summary</h2>
-                            <p class="text-sm text-slate-600 leading-relaxed mb-6">
-                                Comprehensive audit of post-election institutional transformation.
-                            </p>
-                            <div class="grid md:grid-cols-3 gap-4">
-                                <div class="p-4 bg-indigo-50 rounded-xl">
-                                    <p class="text-2xl font-bold text-indigo-700">91</p>
-                                    <p class="text-[10px] uppercase font-bold text-indigo-400">Bills Passed</p>
-                                </div>
-                                <div class="p-4 bg-emerald-50 rounded-xl">
-                                    <p class="text-2xl font-bold text-emerald-700">60</p>
-                                    <p class="text-[10px] uppercase font-bold text-emerald-400">Initiatives</p>
-                                </div>
-                                <div class="p-4 bg-rose-50 rounded-xl">
-                                    <p class="text-2xl font-bold text-rose-700">33%</p>
-                                    <p class="text-[10px] uppercase font-bold text-rose-400">Gender Target</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                const cat = categories.find(c => c.id === activeTab);
-                if (!cat) return;
-
-                const linksHtml = buildLinksHtml(cat.sourceIds);
-
-                main.innerHTML = `
-                    <div class="space-y-6 animate-fade-in">
-                        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                            <div class="p-6">
-                                <h2 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
-                                    <i data-lucide="${cat.icon}" class="text-indigo-600 w-6 h-6"></i>
-                                    ${cat.name} Development
-                                </h2>
-                                <div class="grid md:grid-cols-2 gap-8 mt-6">
-                                    <div class="space-y-4 text-sm text-slate-600">
-                                        <p>Status evaluation based on current legislative session data and NGO impact reporting.</p>
-                                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 font-medium text-xs">
-                                            Evidence suggests consistent alignment with the July National Charter priorities.
-                                        </div>
-                                    </div>
-                                    <div class="bg-slate-50/50 p-5 rounded-2xl border border-slate-100">
-                                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
-                                            Evidence (${cat.sourceIds.length} Links)
-                                        </h3>
-                                        <div class="space-y-1">
-                                            ${linksHtml}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        // Run setup on load
-        document.addEventListener('DOMContentLoaded', init);
+        document.getElementById('sourceSearch').addEventListener('input', renderDashboard);
+        window.onload = renderDashboard;
     </script>
 </body>
 </html>
